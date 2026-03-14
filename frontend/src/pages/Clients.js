@@ -1,0 +1,110 @@
+import { useEffect, useState } from 'react';
+import api from '../api';
+
+export default function Clients() {
+  const [clients, setClients] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [form, setForm] = useState({ name: '', email: '', company: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchClients = () => api.get('/clients').then(r => setClients(r.data)).finally(() => setLoading(false));
+  useEffect(() => { fetchClients(); }, []);
+
+  const openCreate = () => { setForm({ name: '', email: '', company: '' }); setEditing(null); setError(''); setShowModal(true); };
+  const openEdit = (c) => { setForm({ name: c.name, email: c.email || '', company: c.company || '' }); setEditing(c); setError(''); setShowModal(true); };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      if (editing) {
+        await api.put(`/clients/${editing.id}`, form);
+      } else {
+        await api.post('/clients', form);
+      }
+      setShowModal(false);
+      fetchClients();
+    } catch (err) {
+      setError(err.response?.data?.error || 'Something went wrong');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this client?')) return;
+    await api.delete(`/clients/${id}`);
+    fetchClients();
+  };
+
+  const set = f => e => setForm(p => ({ ...p, [f]: e.target.value }));
+
+  if (loading) return <div className="loading">Loading...</div>;
+
+  return (
+    <div>
+      <div className="page-header">
+        <div>
+          <h1>Clients</h1>
+          <p>{clients.length} total clients</p>
+        </div>
+        <button className="btn btn-primary" style={{ width: 'auto' }} onClick={openCreate}>+ Add Client</button>
+      </div>
+
+      {clients.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">👥</div>
+          <h3>No clients yet</h3>
+          <p>Add your first client to get started</p>
+        </div>
+      ) : (
+        <div className="card-grid">
+          {clients.map(c => (
+            <div key={c.id} className="item-card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                  <h3 style={{ fontSize: '1.05rem', marginBottom: 4 }}>{c.name}</h3>
+                  {c.company && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginBottom: 8 }}>{c.company}</p>}
+                  {c.email && <p style={{ color: 'var(--text2)', fontSize: '0.85rem' }}>✉️ {c.email}</p>}
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-secondary btn-sm" onClick={() => openEdit(c)}>Edit</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(c.id)}>✕</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h2>{editing ? 'Edit Client' : 'New Client'}</h2>
+            {error && <div className="error-msg">{error}</div>}
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Name *</label>
+                <input value={form.name} onChange={set('name')} placeholder="Jane Smith" required />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input type="email" value={form.email} onChange={set('email')} placeholder="jane@company.com" />
+              </div>
+              <div className="form-group">
+                <label>Company</label>
+                <input value={form.company} onChange={set('company')} placeholder="Acme Inc." />
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary" style={{ width: 'auto' }}>
+                  {editing ? 'Save Changes' : 'Add Client'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
