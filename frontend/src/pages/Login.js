@@ -30,7 +30,11 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-card">
         <button onClick={toggleLang} className="lang-toggle" style={{ marginBottom: 16 }}>
-          {lang === 'en' ? '🇪🇸 Español' : '🇬🇧 English'}
+          {lang === 'en' ? (
+            <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />Español</>
+          ) : (
+            <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />English</>
+          )}
         </button>
         <h1>{t('welcomeBack')}</h1>
         <p>{t('signInSubtitle')}</p>

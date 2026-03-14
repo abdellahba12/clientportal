@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import api from '../api';
+import { useLang } from '../context/LangContext';
 
 export default function Clients() {
+  const { t } = useLang();
   const [clients, setClients] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -19,44 +21,35 @@ export default function Clients() {
     e.preventDefault();
     setError('');
     try {
-      if (editing) {
-        await api.put(`/clients/${editing.id}`, form);
-      } else {
-        await api.post('/clients', form);
-      }
+      if (editing) { await api.put(`/clients/${editing.id}`, form); }
+      else { await api.post('/clients', form); }
       setShowModal(false);
       fetchClients();
     } catch (err) {
-      setError(err.response?.data?.error || 'Something went wrong');
+      setError(err.response?.data?.error || t('somethingWrong'));
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this client?')) return;
+    if (!window.confirm(t('deleteConfirm'))) return;
     await api.delete(`/clients/${id}`);
     fetchClients();
   };
 
   const set = f => e => setForm(p => ({ ...p, [f]: e.target.value }));
-
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading">Cargando...</div>;
 
   return (
     <div>
       <div className="page-header">
         <div>
-          <h1>Clients</h1>
-          <p>{clients.length} total clients</p>
+          <h1>{t('clients')}</h1>
+          <p>{clients.length} {t('totalClientsCount')}</p>
         </div>
-        <button className="btn btn-primary" style={{ width: 'auto' }} onClick={openCreate}>+ Add Client</button>
+        <button className="btn btn-primary" style={{ width: 'auto' }} onClick={openCreate}>{t('addClient')}</button>
       </div>
-
       {clients.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">👥</div>
-          <h3>No clients yet</h3>
-          <p>Add your first client to get started</p>
-        </div>
+        <div className="empty-state"><div className="empty-icon">👥</div><h3>{t('noClientsYet')}</h3><p>{t('noClientsDesc')}</p></div>
       ) : (
         <div className="card-grid">
           {clients.map(c => (
@@ -68,7 +61,7 @@ export default function Clients() {
                   {c.email && <p style={{ color: 'var(--text2)', fontSize: '0.85rem' }}>✉️ {c.email}</p>}
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-secondary btn-sm" onClick={() => openEdit(c)}>Edit</button>
+                  <button className="btn btn-secondary btn-sm" onClick={() => openEdit(c)}>{t('edit')}</button>
                   <button className="btn btn-danger btn-sm" onClick={() => handleDelete(c.id)}>✕</button>
                 </div>
               </div>
@@ -76,30 +69,18 @@ export default function Clients() {
           ))}
         </div>
       )}
-
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
-            <h2>{editing ? 'Edit Client' : 'New Client'}</h2>
+            <h2>{editing ? t('editClient') : t('newClient')}</h2>
             {error && <div className="error-msg">{error}</div>}
             <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Name *</label>
-                <input value={form.name} onChange={set('name')} placeholder="Jane Smith" required />
-              </div>
-              <div className="form-group">
-                <label>Email</label>
-                <input type="email" value={form.email} onChange={set('email')} placeholder="jane@company.com" />
-              </div>
-              <div className="form-group">
-                <label>Company</label>
-                <input value={form.company} onChange={set('company')} placeholder="Acme Inc." />
-              </div>
+              <div className="form-group"><label>{t('name')}</label><input value={form.name} onChange={set('name')} placeholder={t('namePlaceholder')} required /></div>
+              <div className="form-group"><label>{t('email')}</label><input type="email" value={form.email} onChange={set('email')} placeholder={t('emailPlaceholder')} /></div>
+              <div className="form-group"><label>{t('company')}</label><input value={form.company} onChange={set('company')} placeholder={t('companyPlaceholder')} /></div>
               <div className="modal-actions">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary" style={{ width: 'auto' }}>
-                  {editing ? 'Save Changes' : 'Add Client'}
-                </button>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancel')}</button>
+                <button type="submit" className="btn btn-primary" style={{ width: 'auto' }}>{editing ? t('saveChanges') : t('addClient')}</button>
               </div>
             </form>
           </div>

@@ -34,7 +34,11 @@ export default function Layout() {
         </nav>
         <div className="sidebar-bottom">
           <button onClick={toggleLang} className="lang-toggle">
-            {lang === 'en' ? '🇪🇸 Español' : '🇬🇧 English'}
+            {lang === 'en' ? (
+              <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />Español</>
+            ) : (
+              <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />English</>
+            )}
           </button>
           <div className="user-info">
             <div className="name">{user?.name}</div>
