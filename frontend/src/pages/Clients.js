@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import api from '../api';
 import { useLang } from '../context/LangContext';
 
+const FRONTEND_URL = window.location.origin;
+
 export default function Clients() {
   const { t } = useLang();
   const [clients, setClients] = useState([]);
@@ -10,6 +12,7 @@ export default function Clients() {
   const [form, setForm] = useState({ name: '', email: '', company: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState('');
 
   const fetchClients = () => api.get('/clients').then(r => setClients(r.data)).finally(() => setLoading(false));
   useEffect(() => { fetchClients(); }, []);
@@ -36,6 +39,13 @@ export default function Clients() {
     fetchClients();
   };
 
+  const copyPortalLink = (token) => {
+    const url = `${FRONTEND_URL}/portal/${token}`;
+    navigator.clipboard.writeText(url);
+    setCopied(token);
+    setTimeout(() => setCopied(''), 2000);
+  };
+
   const set = f => e => setForm(p => ({ ...p, [f]: e.target.value }));
   if (loading) return <div className="loading">Cargando...</div>;
 
@@ -54,7 +64,7 @@ export default function Clients() {
         <div className="card-grid">
           {clients.map(c => (
             <div key={c.id} className="item-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div>
                   <h3 style={{ fontSize: '1.05rem', marginBottom: 4 }}>{c.name}</h3>
                   {c.company && <p style={{ color: 'var(--accent)', fontSize: '0.8rem', marginBottom: 8 }}>{c.company}</p>}
@@ -65,6 +75,14 @@ export default function Clients() {
                   <button className="btn btn-danger btn-sm" onClick={() => handleDelete(c.id)}>✕</button>
                 </div>
               </div>
+              {c.portal_token && (
+                <button
+                  onClick={() => copyPortalLink(c.portal_token)}
+                  style={{ width: '100%', marginTop: 8, background: copied === c.portal_token ? 'rgba(34,197,94,0.15)' : 'rgba(108,99,255,0.1)', border: `1px solid ${copied === c.portal_token ? 'rgba(34,197,94,0.3)' : 'rgba(108,99,255,0.3)'}`, borderRadius: 8, padding: '8px 12px', color: copied === c.portal_token ? '#22c55e' : 'var(--accent)', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, transition: 'all 0.2s' }}
+                >
+                  {copied === c.portal_token ? '✅ ¡Enlace copiado!' : '🔗 Copiar enlace del portal'}
+                </button>
+              )}
             </div>
           ))}
         </div>

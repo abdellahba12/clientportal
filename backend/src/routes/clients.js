@@ -17,12 +17,11 @@ router.post('/', async (req, res) => {
   const { name, email, company } = req.body;
   if (!name) return res.status(400).json({ error: 'Name required' });
 
-  // Freemium limit: max 2 clients on free plan
   const user = await pool.query('SELECT plan FROM users WHERE id = $1', [req.userId]);
   if (user.rows[0].plan === 'free') {
     const count = await pool.query('SELECT COUNT(*) FROM clients WHERE user_id = $1', [req.userId]);
     if (parseInt(count.rows[0].count) >= 2)
-      return res.status(403).json({ error: 'Free plan limited to 2 clients. Upgrade to Pro.' });
+      return res.status(403).json({ error: 'Plan gratuito limitado a 2 clientes. Actualiza a Pro.' });
   }
 
   const result = await pool.query(

@@ -22,6 +22,7 @@ async function initDB() {
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255),
       company VARCHAR(255),
+      portal_token VARCHAR(64) UNIQUE DEFAULT encode(gen_random_bytes(32), 'hex'),
       created_at TIMESTAMP DEFAULT NOW()
     );
 
@@ -73,6 +74,9 @@ async function initDB() {
       sender_type VARCHAR(50) DEFAULT 'freelancer',
       created_at TIMESTAMP DEFAULT NOW()
     );
+
+    -- Add portal_token to existing clients if missing
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS portal_token VARCHAR(64) UNIQUE DEFAULT encode(gen_random_bytes(32), 'hex');
   `);
   console.log('Database initialized');
 }
