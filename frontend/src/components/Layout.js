@@ -28,16 +28,17 @@ export default function Layout() {
               end={l.to === '/'}
               className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             >
-              <span>{l.icon}</span> {l.label}
+              <span className="nav-icon">{l.icon}</span>
+              {l.label}
             </NavLink>
           ))}
         </nav>
         <div className="sidebar-bottom">
           <button onClick={toggleLang} className="lang-toggle">
             {lang === 'en' ? (
-              <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />Español</>
+              <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:18, borderRadius:2}} /> Español</>
             ) : (
-              <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />English</>
+              <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:18, borderRadius:2}} /> English</>
             )}
           </button>
           <div className="user-info">

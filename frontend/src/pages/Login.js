@@ -29,13 +29,7 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <button onClick={toggleLang} className="lang-toggle" style={{ marginBottom: 16 }}>
-          {lang === 'en' ? (
-            <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />Español</>
-          ) : (
-            <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />English</>
-          )}
-        </button>
+        <span className="auth-logo">ClientPortal</span>
         <h1>{t('welcomeBack')}</h1>
         <p>{t('signInSubtitle')}</p>
         {error && <div className="error-msg">{error}</div>}
@@ -48,12 +42,17 @@ export default function Login() {
             <label>{t('password')}</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{marginTop: 8}}>
             {loading ? t('signingIn') : t('signIn')}
           </button>
         </form>
         <div className="auth-link">
           {t('noAccount')} <Link to="/register">{t('createFree')}</Link>
+        </div>
+        <div style={{marginTop: 16, textAlign: 'center'}}>
+          <button onClick={toggleLang} className="lang-toggle" style={{width: 'auto', display: 'inline-flex'}}>
+            {lang === 'en' ? <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:16, borderRadius:2}} /> Español</> : <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:16, borderRadius:2}} /> English</>}
+          </button>
         </div>
       </div>
     </div>

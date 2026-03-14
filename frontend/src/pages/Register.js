@@ -30,13 +30,7 @@ export default function Register() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <button onClick={toggleLang} className="lang-toggle" style={{ marginBottom: 16 }}>
-          {lang === 'en' ? (
-            <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />Español</>
-          ) : (
-            <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:20, marginRight:6, borderRadius:2, verticalAlign:'middle'}} />English</>
-          )}
-        </button>
+        <span className="auth-logo">ClientPortal</span>
         <h1>{t('getStarted')}</h1>
         <p>{t('registerSubtitle')}</p>
         {error && <div className="error-msg">{error}</div>}
@@ -53,12 +47,17 @@ export default function Register() {
             <label>{t('password')}</label>
             <input type="password" value={form.password} onChange={set('password')} placeholder="Min 8 caracteres" minLength={8} required />
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading} style={{marginTop: 8}}>
             {loading ? t('creatingAccount') : t('createAccount')}
           </button>
         </form>
         <div className="auth-link">
           {t('alreadyAccount')} <Link to="/login">{t('signIn').replace(' →','')}</Link>
+        </div>
+        <div style={{marginTop: 16, textAlign: 'center'}}>
+          <button onClick={toggleLang} className="lang-toggle" style={{width: 'auto', display: 'inline-flex'}}>
+            {lang === 'en' ? <><img src="https://flagcdn.com/w20/es.png" alt="ES" style={{width:16, borderRadius:2}} /> Español</> : <><img src="https://flagcdn.com/w20/gb.png" alt="EN" style={{width:16, borderRadius:2}} /> English</>}
+          </button>
         </div>
       </div>
     </div>
