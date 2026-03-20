@@ -12,6 +12,7 @@ export default function Layout() {
     { to: '/clients', label: t('clients'), icon: '👥' },
     { to: '/projects', label: t('projects'), icon: '📁' },
     { to: '/invoices', label: t('invoices'), icon: '💰' },
+    { to: '/upgrade', label: lang === 'es' ? 'Plan Pro' : 'Pro Plan', icon: '⭐' },
   ];
 
   return (

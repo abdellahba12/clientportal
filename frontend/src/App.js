@@ -8,6 +8,9 @@ import Clients from './pages/Clients';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import Invoices from './pages/Invoices';
+import Upgrade from './pages/Upgrade';
+import UpgradeSuccess from './pages/UpgradeSuccess';
+import UpgradeCancel from './pages/UpgradeCancel';
 import ClientPortal from './pages/ClientPortal';
 import Layout from './components/Layout';
 import './index.css';
@@ -27,12 +30,15 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/portal/:token" element={<ClientPortal />} />
+            <Route path="/upgrade/success" element={<UpgradeSuccess />} />
+            <Route path="/upgrade/cancel" element={<UpgradeCancel />} />
             <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="clients" element={<Clients />} />
               <Route path="projects" element={<Projects />} />
               <Route path="projects/:id" element={<ProjectDetail />} />
               <Route path="invoices" element={<Invoices />} />
+              <Route path="upgrade" element={<Upgrade />} />
             </Route>
           </Routes>
         </BrowserRouter>

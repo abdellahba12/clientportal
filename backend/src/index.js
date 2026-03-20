@@ -10,6 +10,7 @@ const fileRoutes = require('./routes/files');
 const invoiceRoutes = require('./routes/invoices');
 const messageRoutes = require('./routes/messages');
 const portalRoutes = require('./routes/portal');
+const stripeRoutes = require('./routes/stripe');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/files', fileRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/portal', portalRoutes);
+app.use('/api/stripe', stripeRoutes);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
