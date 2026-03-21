@@ -43,9 +43,9 @@ initDB().then(() => {
 
 // Keep-alive ping every 4 minutes
 setInterval(() => {
-  const http = require('http');
+  const https = require("https");
   const url = new URL(process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 4000}`);
-  http.get(`${url.origin}/health`, (res) => {
+  https.get(`${process.env.BACKEND_URL || "https://client-portal.up.railway.app"}/health`, (res) => {
     console.log('Keep-alive ping:', res.statusCode);
   }).on('error', () => {});
 }, 4 * 60 * 1000);
