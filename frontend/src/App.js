@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LangProvider } from './context/LangContext';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -27,12 +28,13 @@ export default function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/portal/:token" element={<ClientPortal />} />
             <Route path="/upgrade/success" element={<UpgradeSuccess />} />
             <Route path="/upgrade/cancel" element={<UpgradeCancel />} />
-            <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
+            <Route path="/app" element={<PrivateRoute><Layout /></PrivateRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="clients" element={<Clients />} />
               <Route path="projects" element={<Projects />} />

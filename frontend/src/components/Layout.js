@@ -8,11 +8,11 @@ export default function Layout() {
   const navigate = useNavigate();
 
   const links = [
-    { to: '/', label: t('dashboard'), icon: '⚡', end: true },
-    { to: '/clients', label: t('clients'), icon: '👥' },
-    { to: '/projects', label: t('projects'), icon: '📁' },
-    { to: '/invoices', label: t('invoices'), icon: '💰' },
-    { to: '/upgrade', label: lang === 'es' ? 'Plan Pro' : 'Pro Plan', icon: '⭐' },
+    { to: '/app', label: t('dashboard'), icon: '⚡', end: true },
+    { to: '/app/clients', label: t('clients'), icon: '👥' },
+    { to: '/app/projects', label: t('projects'), icon: '📁' },
+    { to: '/app/invoices', label: t('invoices'), icon: '💰' },
+    { to: '/app/upgrade', label: lang === 'es' ? 'Plan Pro' : 'Pro Plan', icon: '⭐' },
   ];
 
   return (

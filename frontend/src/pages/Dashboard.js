@@ -80,7 +80,7 @@ export default function Dashboard() {
       ) : (
         <div className="card-grid">
           {recentProjects.map(p => (
-            <Link to={`/projects/${p.id}`} key={p.id} className="item-card" style={{textDecoration:'none',color:'inherit'}}>
+            <Link to={`/app/projects/${p.id}`} key={p.id} className="item-card" style={{textDecoration:'none',color:'inherit'}}>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
                 <h3 style={{fontSize:'0.92rem',fontWeight:700,lineHeight:1.3}}>{p.title}</h3>
                 <span className={`badge ${statusColor[p.status]||'badge-pending'}`}>{t(p.status)}</span>

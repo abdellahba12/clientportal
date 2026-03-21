@@ -18,7 +18,7 @@ export default function ProjectDetail() {
   const fileInputRef = useRef();
   const messagesEndRef = useRef();
 
-  const fetch = () => api.get(`/projects/${id}`).then(r => setProject(r.data)).catch(() => navigate('/projects')).finally(() => setLoading(false));
+  const fetch = () => api.get(`/projects/${id}`).then(r => setProject(r.data)).catch(() => navigate('/app/projects')).finally(() => setLoading(false));
   useEffect(() => { fetch(); }, [id]);
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [project?.messages]);
 
@@ -55,7 +55,7 @@ export default function ProjectDetail() {
     <div>
       <div className="page-header">
         <div>
-          <button onClick={() => navigate('/projects')} style={{ background: 'none', border: 'none', color: 'var(--text2)', cursor: 'pointer', marginBottom: 8, fontSize: '0.9rem' }}>{t('back')}</button>
+          <button onClick={() => navigate('/app/projects')} style={{ background: 'none', border: 'none', color: 'var(--text2)', cursor: 'pointer', marginBottom: 8, fontSize: '0.9rem' }}>{t('back')}</button>
           <h1>{project.title}</h1>
           {project.client_name && <p>👤 {project.client_name}</p>}
         </div>

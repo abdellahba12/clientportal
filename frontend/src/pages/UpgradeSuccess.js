@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function UpgradeSuccess() {
   const navigate = useNavigate();
-  useEffect(() => { setTimeout(() => navigate('/'), 4000); }, [navigate]);
+  useEffect(() => { setTimeout(() => navigate('/app'), 4000); }, [navigate]);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)', flexDirection: 'column', gap: 16, textAlign: 'center', padding: 24 }}>

@@ -13,7 +13,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); setError(''); setLoading(true);
-    try { await register(form.name, form.email, form.password); navigate('/'); }
+    try { await register(form.name, form.email, form.password); navigate('/app'); }
     catch (err) { setError(err.response?.data?.error || t('registrationFailed')); }
     finally { setLoading(false); }
   };

@@ -49,7 +49,7 @@ export default function Projects() {
       ) : (
         <div className="card-grid">
           {projects.map(p => (
-            <Link to={`/projects/${p.id}`} key={p.id} className="item-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={`/app/projects/${p.id}`} key={p.id} className="item-card" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <h3 style={{ fontSize: '1rem' }}>{p.title}</h3>
                 <span className={`badge ${STATUS_COLORS[p.status] || 'badge-pending'}`}>{t(p.status)}</span>
