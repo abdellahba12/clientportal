@@ -40,3 +40,12 @@ initDB().then(() => {
   console.error('DB init failed:', err);
   process.exit(1);
 });
+
+// Keep-alive ping every 4 minutes
+setInterval(() => {
+  const http = require('http');
+  const url = new URL(process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 4000}`);
+  http.get(`${url.origin}/health`, (res) => {
+    console.log('Keep-alive ping:', res.statusCode);
+  }).on('error', () => {});
+}, 4 * 60 * 1000);
