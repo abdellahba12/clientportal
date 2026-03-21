@@ -6,11 +6,15 @@ async function sendEmail({ to, subject, html }) {
   try {
     const nodemailer = require('nodemailer');
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
         user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-      }
+        pass: process.env.GMAIL_PASS?.replace(/\s/g, ''),
+      },
+      tls: { rejectUnauthorized: false }
     });
     await transporter.sendMail({
       from: `ClientPortal <${process.env.GMAIL_USER}>`,
